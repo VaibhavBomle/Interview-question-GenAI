@@ -74,6 +74,32 @@ def llm_pipeline(file_path):
         input_variables=["existing_answer", "text"],
         template = refine_template
     )
-    
+
+    ques_gen_chain = load_summarize_chain(
+        llm = llm_ques_gen_pipeline,
+        chain_tye = "refine",
+        question_prompt = PROMPT_QUESTIONS,
+        refine_prompt = REFINE_PROMPT_QUESTIONS
+    )
+
+    ques = ques_gen_chain.run(document_ques_gen)
+
+    embeddings = OpenAIEmbeddings()
+
+    vector_store = FAISS.from_documents(document_answer_gen,embeddings)
+
+    llm_answer_gen = ChatOpenAI(temperature = 0.1, model = "gpt-3.5-turbo")
+
+    ques_list = ques.split("\n")
+
+    filtered_ques_list = [element for element in ques_list if element.endswith('?') or element.endswith('.')]
+
+    answer_generation_chain = RetrievalQA.from_chain_type(
+        llm=llm_answer_gen,
+        chain_type="stuff",
+        retriever=vector_store.as_retriever()
+    )
+
+    return answer_generation_chain,filtered_ques_list
 
 

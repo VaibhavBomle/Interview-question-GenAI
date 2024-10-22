@@ -142,7 +142,7 @@ Additional dependencies are listed in the `requirements.txt` file.
    
 2. Run the application with:
    ```bash
-   uvicorn app:app --host 0.0.0.0 --port 8080 --reload
+    python app.py
    ```
 
 3. Open the browser at `http://localhost:8080` to use the application.

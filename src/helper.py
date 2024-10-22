@@ -75,12 +75,17 @@ def llm_pipeline(file_path):
         template = refine_template
     )
 
-    ques_gen_chain = load_summarize_chain(
-        llm = llm_ques_gen_pipeline,
-        chain_tye = "refine",
-        question_prompt = PROMPT_QUESTIONS,
-        refine_prompt = REFINE_PROMPT_QUESTIONS
-    )
+    # ques_gen_chain = load_summarize_chain(
+    #     llm = llm_ques_gen_pipeline,
+    #     chain_tye = "refine",
+    #     question_prompt = PROMPT_QUESTIONS,
+    #     refine_prompt = REFINE_PROMPT_QUESTIONS
+    # )
+    ques_gen_chain = load_summarize_chain(llm = llm_ques_gen_pipeline, 
+                                            chain_type = "refine", 
+                                            verbose = True, 
+                                            question_prompt=PROMPT_QUESTIONS, 
+                                            refine_prompt=REFINE_PROMPT_QUESTIONS)
 
     ques = ques_gen_chain.run(document_ques_gen)
 

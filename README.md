@@ -109,7 +109,7 @@ To get started, follow the steps below:
 1. **Run the FastAPI Server:**
    To start the application, run:
    ```bash
-   uvicorn app:app --host 0.0.0.0 --port 8080 --reload
+   python app.py
    ```
 
 2. **Access the Web Interface:**
